@@ -1,0 +1,57 @@
+#!/bin/bash
+
+set -e
+
+# Clean Previous Output
+rm ./output/*
+
+source scripts/defaults.txt
+
+TARGET=$1
+if [[ -z "$TARGET" ]]; then
+    echo "Error: You must specify a target (e.g., ./scripts/submit blocking)"
+    exit 1
+fi
+shift 
+
+# Initialize variables with defaults
+NODES=$DEFAULT_NODES
+PER_NODE=$DEFAULT_PER_NODE
+TIME=$DEFAULT_TIME
+JOB_NAME=$DEFAULT_NAME
+PARTITION=$DEFAULT_PARTITION
+ACCOUNT=$DEFAULT_ACCOUNT
+
+while [[ "$#" -gt 0 ]]; do
+    case $1 in
+        --nodes) NODES="$2"; shift ;;
+        --per-node) PER_NODE="$2"; shift ;;
+        --time) TIME="$2"; shift ;;
+        --name) JOB_NAME="$2"; shift ;;
+        --partition) PARTITION="$2"; shift ;;
+        --account) ACCOUNT="$2"; shift ;;
+        *) echo "Unknown parameter: $1"; exit 1 ;;
+    esac
+    shift
+done
+
+mkdir -p build
+
+if [ ! -f build/Makefile ]; then
+    echo "Makefile not found. Running CMake..."
+    cmake -S . -B build 
+fi
+
+echo "Compiling $TARGET..."
+make -C build $TARGET 
+echo "Compilation successful. Submitting $TARGET to Slurm..."
+
+sbatch \
+    --job-name="$JOB_NAME" \
+    --nodes="$NODES" \
+    --ntasks-per-node="$PER_NODE" \
+    --time="$TIME" \
+    --partition="$PARTITION" \
+    --account="$ACCOUNT" \
+    --export=ALL,TARGET="$TARGET" \
+    scripts/job.slurm
