@@ -3,6 +3,13 @@
 #include<queue>
 #include<iostream>
 
+// This is  a simple logger which runs on a ROOT rank.
+// The ROOT rank simply Probes for any incoming messages.
+// If it gets any, it calls the blocking MPI_Recv and prints the message.
+// The printed message is handled by slurm into its output file.
+
+// Other ranks simply do a blocking send of their message
+
 static int curr_rank{-1};
 static int world_size{-1};
 
@@ -18,7 +25,7 @@ void init_logger(int rank, int size) {
     //Run the logger only on ROOT
     if (curr_rank != ROOT) return;
     
-    std::cout << "=== LOGGER STARTED ===\n";
+    std::cout << "[RANK " << ROOT << "] === LOGGER STARTED ===\n";
 
     int active_workers = world_size - 1;
 
