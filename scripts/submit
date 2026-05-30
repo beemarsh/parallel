@@ -3,7 +3,14 @@
 set -e
 
 # Clean Previous Output
-rm ./output/*
+if [ -d "./output" ] && [ "$(ls -A ./output 2>/dev/null)" ]; then
+    rm ./output/*
+fi
+
+# Clean Previous Builds
+if [ -d "./build" ]; then
+    rm -rf ./build
+fi
 
 source scripts/defaults.txt
 

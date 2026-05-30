@@ -38,6 +38,7 @@ int main(int argc, char** argv){
     int dest = rank % (size - 1) + 1;
 
     MPI_Send(msg_outgoing_buff, msg_outgoing_size, MPI_CHAR, dest, 0, MPI_COMM_WORLD);
+    log("Message sent to Rank " + std::to_string(dest));
 
     //Instead of defining each source, we are just accepting from any source
     MPI_Status status;
