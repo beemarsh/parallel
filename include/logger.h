@@ -1,5 +1,5 @@
 #pragma once
-#include<string>
+#include <string>
 
 extern const int ROOT;
 void init_logger(int rank, int size);

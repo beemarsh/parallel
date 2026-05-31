@@ -1,9 +1,6 @@
-#include<iostream>
 #include<mpi.h>
 #include<string>
 #include "logger.h"
-#include<chrono>
-#include<thread>
 #include<random>
 
 const int ROOT{0};
