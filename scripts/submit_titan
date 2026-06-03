@@ -1,0 +1,24 @@
+#!/bin/bash
+
+set -ex
+
+# Clean Previous Output
+if [ -d "./output" ] && [ "$(ls -A ./output 2>/dev/null)" ]; then
+    rm ./output/*
+fi
+
+MODEL_CHOICE=$1
+
+if [ "$MODEL_CHOICE" == "debug" ]; then
+    echo "Selected Model: Debug"
+elif [ "$MODEL_CHOICE" == "llama3_8b" ]; then
+    echo "Selected Model: Llama 3 8B"
+else
+    echo "ERROR: Invalid or missing model choice!"
+    echo "Usage: sbatch submit.slurm [debug | llama3_8b]"
+    exit 1
+fi
+
+SCRIPT_DIR=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &> /dev/null && pwd)
+
+sbatch "${SCRIPT_DIR}/submit.slurm" $MODEL_CHOICE

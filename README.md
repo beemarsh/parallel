@@ -31,3 +31,12 @@ For taskname see CMakeLists.txt
 eg:
 ./scripts/submit reduction
 ```
+
+## Torchtitan training runs
+```bash
+For debug
+./scripts/submit_titan debug 
+
+For llama3 8B training
+./scripts/submit_titan llama3_8b
+```
