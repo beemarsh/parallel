@@ -1,3 +1,6 @@
 [submodule "torchtitan"]
 	path = torchtitan
 	url = https://github.com/pytorch/torchtitan
+[submodule "osu-hidl"]
+	path = osu-hidl
+	url = git@github.com:beemarsh/osu-hidl.git

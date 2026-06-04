@@ -76,3 +76,5 @@ Now check:
 python -c "import torch; print(f'PyTorch: {torch.__version__}')"
 python -c "import torch.distributed as dist; print(f'MPI: {dist.is_mpi_available()}')"
 ```
+
+For an example, see examples directory.
